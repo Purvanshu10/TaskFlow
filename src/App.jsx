@@ -22,8 +22,22 @@ function App() {
     newtodos[index].isCompleted = !newtodos[index].isCompleted
     setTodos(newtodos)
   }
-  const handleEdit = () => { }
-  const handleDelete = () => { }
+  const handleEdit = (e, id) => {
+    console.log(id);
+    let temp = todos.filter(item=>{return item.id===id})
+    setTodo(temp[0].todo)
+    let newtodos = todos.filter(item => {
+      return item.id !== id
+    })
+    setTodos(newtodos)
+  }
+  const handleDelete = (e, id) => {
+    console.log(id);
+    let newtodos = todos.filter(item => {
+      return item.id !== id
+    })
+    setTodos(newtodos)
+  }
 
   return (
     <>
@@ -56,18 +70,19 @@ function App() {
         {/* <!-- Todo List Section --> */}
         <div >
           <h2 className="text-xl font-bold text-gray-800 mb-4">Your Todos</h2>
+          {todos.length===0 && <div>No todos to display</div>}
           {/* <!-- Todo Item --> */}
           {todos.map((item) => {
             return <div key={item.id} className="bg-white rounded-lg shadow-sm p-4 mb-3 flex justify-between items-center">
               <div className="flex items-center">
                 <input onClick={handleCheckbox} name={item.id} type="checkbox" className="h-5 w-5 text-purple-600 focus:ring-purple-500 border-gray-300 rounded mr-3" />
-                <span className={item.isCompleted?"line-through text-gray-800":"text-gray-800"}>{item.todo}</span>
+                <span className={item.isCompleted ? "line-through text-gray-800" : "text-gray-800"}>{item.todo}</span>
               </div>
               <div className="flex space-x-2">
-                <button onClick={handleEdit} className="text-purple-600 hover:text-purple-800 p-1">
+                <button onClick={(e)=>{handleEdit(e,item.id)}} className="text-purple-600 hover:text-purple-800 p-1">
                   Edit
                 </button>
-                <button onClick={handleDelete} className="text-purple-600 hover:text-purple-800 p-1">
+                <button onClick={(e) => { handleDelete(e, item.id) }} className="text-purple-600 hover:text-purple-800 p-1">
                   Delete
                 </button>
               </div>
